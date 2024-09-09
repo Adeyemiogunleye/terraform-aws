@@ -45,13 +45,12 @@ resource "aws_security_group" "vprofile-prod-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port       = 80
+    from_port       = 22
     protocol        = "tcp"
-    to_port         = 80
+    to_port         = 22
     security_groups = [aws_security_group.vprofile-bastion-sg.id]
   }
 }
-
 resource "aws_security_group" "vprofile-backend-sg" {
   name        = "vprofile-backend-sg"
   description = "Security group for RDS, active mq, elastic cache"
@@ -63,9 +62,9 @@ resource "aws_security_group" "vprofile-backend-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port       = 0
-    protocol        = "-1"
-    to_port         = 0
+    from_port       = 22
+    protocol        = "tcp"
+    to_port         = 22 
     security_groups = [aws_security_group.vprofile-prod-sg.id]
   }
 }
